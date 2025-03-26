@@ -30,7 +30,16 @@ public class BookService {
 		return bookRepository.findAll();
 	}
 	
-	
+	// Read by id
+	public Book getBookById(Long id) {
+		logger.info("Fetching book with ID: {}", id);
+		return bookRepository.findById(id)
+			.orElseThrow(() -> {
+				logger.warn("Failed to retrive book");
+				logger.error("Book not found with ID: {}", id);
+				return new ResourceNotFoundException("Book not found with id: " + id);
+			});
+	}
 	
 	// Update
 	public Book updateBook(Long id, Book bookDetails) {
